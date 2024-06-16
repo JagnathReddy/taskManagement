@@ -1,51 +1,45 @@
 package com.example.taskManagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan
+import com.example.taskManagement.utils.enums.UserRoles;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Setter
+@Getter
 @Entity
+@NoArgsConstructor
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long UserId;
-    String name;
-    String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long UserId;
+    @Column(unique = true)
+    private String username;
+    private String name;
+    private String email;
+    private String password;
+    private String phoneNumber;
 
-    public User() {
-    }
+    @Temporal(TemporalType.DATE)
+    private Date dateOfBirth;
 
-    public User(Long userId, String name, String email) {
-        UserId = userId;
-        this.name = name;
-        this.email = email;
-    }
+    private UserRoles userRole;
 
-    public Long getUserId() {
-        return UserId;
-    }
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "createdBy")
+    private List<Project> projectsCreated;
 
-    public void setUserId(Long userId) {
-        UserId = userId;
-    }
 
-    public String getName() {
-        return name;
-    }
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnoreProperties("users")
+    private List<Team> teamList=new ArrayList<>();
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @ManyToOne
+    @JsonIgnoreProperties("employees")
+    private Company company;
 }
