@@ -41,7 +41,7 @@ public class webSecurityConfig{
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/register", "/login").permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -54,6 +54,7 @@ public class webSecurityConfig{
     public JwtRequestFilter jwtRequestFilter() {
         return new JwtRequestFilter(jwtUtil, userDetailService);
     }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

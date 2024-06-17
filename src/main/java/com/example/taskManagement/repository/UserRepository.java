@@ -6,7 +6,6 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 
 import java.util.Optional;
 
-@RepositoryRestController
 public interface UserRepository extends CrudRepository<User,Long> {
     Optional<User> findByUsername(String username);
 }
