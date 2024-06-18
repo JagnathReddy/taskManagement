@@ -41,11 +41,12 @@ public class webSecurityConfig{
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/register", "/login").permitAll()
+                        .requestMatchers("/invite").authenticated()
                         .anyRequest().permitAll())
+
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 

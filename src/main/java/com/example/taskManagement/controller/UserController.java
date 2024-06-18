@@ -1,5 +1,6 @@
 package com.example.taskManagement.controller;
 
+import com.example.taskManagement.Service.CompanyService;
 import com.example.taskManagement.entity.Team;
 import com.example.taskManagement.entity.User;
 import com.example.taskManagement.repository.TeamRepository;
@@ -19,11 +20,14 @@ public class UserController {
     private TeamRepository teamRepository;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private CompanyService companyService;
     @RequestMapping(value = "/addUser",method = RequestMethod.POST)
     public User addUser(@RequestBody User user){
         System.out.println(user);
         String password=user.getPassword();
         user.setPassword(encoder.encode(password));
+
         return userRepository.save(user);
     }
 

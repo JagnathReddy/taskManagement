@@ -20,21 +20,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long UserId;
+
     @Column(unique = true)
+
     private String username;
     private String name;
     private String email;
     private String password;
     private String phoneNumber;
+    private UserRoles userRole;
 
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    private UserRoles userRole;
-
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "createdBy")
     private List<Project> projectsCreated;
-
 
     @ManyToMany(mappedBy = "users")
     @JsonIgnoreProperties("users")

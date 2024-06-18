@@ -1,5 +1,6 @@
 package com.example.taskManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,6 +25,13 @@ public class Company {
     private String description;
 
     @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("company")
+    @JsonIgnore
     private List<User> employees;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "company",cascade = CascadeType.ALL)
+    private List<UserInvite> invites = new ArrayList<>();
+
+
+
 }

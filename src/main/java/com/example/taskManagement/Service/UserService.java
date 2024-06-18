@@ -19,6 +19,7 @@ public class UserService {
         user.setPassword(password);
         return userRepository.save(user);
     }
+
     public User saveUser(User user){
         return userRepository.save(user);
     }

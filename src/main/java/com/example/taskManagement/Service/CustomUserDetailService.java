@@ -22,14 +22,10 @@ public class CustomUserDetailService implements UserDetailsService {
     private UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user=userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("Username " + username + " not found"));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),getAuthorities(user));
-    }
-
-    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getUserRole()));
-        return authorities;
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+        com.example.taskManagement.UserDetails dd = new com.example.taskManagement.UserDetails(user.getUsername(), user.getPassword(), user.getUserRole(), user.getCompany());
+        System.out.println("logged in:" + dd.toString());
+        return dd;
     }
 }
 
